@@ -5,7 +5,7 @@ namespace BasicArithmeticOperations.Tests
     public class OperationTests
     {
         [Fact]
-        public void Add_TwoFloats_ReturnSum()
+        public void Add_TwoDecimals_ReturnSum()
         {
             decimal firstNum = 3333;
             decimal secondNum = 1;
@@ -18,7 +18,7 @@ namespace BasicArithmeticOperations.Tests
 
         [Fact]
 
-        public void Add_TwoBigFloats_ThrowException()
+        public void Add_TwoBigDecimals_ThrowException()
         {
             decimal firstNum = decimal.MaxValue;
             decimal secondNum = decimal.MaxValue;
@@ -27,7 +27,7 @@ namespace BasicArithmeticOperations.Tests
         }
 
         [Fact]
-        public void Subtract_TwoFloats_ReturnDifference()
+        public void Subtract_TwoDecimals_ReturnDifference()
         {
             decimal minuend = 123551;
             decimal subtrahend = 3222.23m;
@@ -39,7 +39,7 @@ namespace BasicArithmeticOperations.Tests
         }
 
         [Fact]
-        public void Subtract_TwoSmallFloats_ThrowException()
+        public void Subtract_TwoSmallDecimals_ThrowException()
         {
             decimal minuend = decimal.MinValue;
             decimal subtrahend = decimal.MinValue;
@@ -48,7 +48,7 @@ namespace BasicArithmeticOperations.Tests
         }
 
         [Fact]
-        public void Multiply_TwoFloats_ReturnProduct()
+        public void Multiply_TwoDecimals_ReturnProduct()
         {
             decimal firstNum = 213.1m;
             decimal secondNum = 23;
@@ -61,7 +61,7 @@ namespace BasicArithmeticOperations.Tests
 
         [Fact]
 
-        public void Multiply_TwoBigFloats_ThrowException()
+        public void Multiply_TwoBigDecimals_ThrowException()
         {
             decimal firstNum = decimal.MaxValue;
             decimal secondNum = decimal.MaxValue;
@@ -70,7 +70,7 @@ namespace BasicArithmeticOperations.Tests
         }
 
         [Fact]
-        public void Divide_TwoFloats_ReturnQuotient()
+        public void Divide_TwoDecimals_ReturnQuotient()
         {
             decimal dividend = 67575;
             decimal divisor = 322;
@@ -89,14 +89,5 @@ namespace BasicArithmeticOperations.Tests
 
             Assert.Throws<ArgumentException>(() => Calculator.Divide(dividend, divisor));
         }
-
-        public void Divide_TwoBigFloats_ThrowException()
-        {
-            decimal dividend = decimal.MaxValue;
-            decimal divisor = decimal.MinValue;
-
-            Assert.Throws<ArgumentException>(() => Calculator.Divide(dividend, divisor));
-        }
     }
-
 }

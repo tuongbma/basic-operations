@@ -1,16 +1,17 @@
 using BasicArithmeticOperations.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Drawing;
 
 namespace BasicArithmeticOperations.Controllers
 {
     [ApiController]
     [Route("api/ops")]
-    public class OperationController : ControllerBase
+    public class OperationsController : ControllerBase
     {
-        private readonly ILogger<OperationController> _logger;
+        private readonly ILogger<OperationsController> _logger;
 
-        public OperationController(ILogger<OperationController> logger)
+        public OperationsController(ILogger<OperationsController> logger)
         {
             _logger = logger;
         }
@@ -29,7 +30,7 @@ namespace BasicArithmeticOperations.Controllers
             {
                 // result is out of value range
                 _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Add request for {firstNum} and {secNum}", firstNum, secNum);
-                return BadRequest(Messages.RangeLimitExceeded);
+                return StatusCode(500, Messages.RangeLimitExceeded);
             }
         }
 
@@ -47,7 +48,7 @@ namespace BasicArithmeticOperations.Controllers
             {
                 // result is out of value range
                 _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Subtract request for {minuend} and {subtrahend}", minuend, subtrahend);
-                return BadRequest(Messages.RangeLimitExceeded);
+                return StatusCode(500, Messages.RangeLimitExceeded);
             }
         }
 
@@ -57,7 +58,7 @@ namespace BasicArithmeticOperations.Controllers
         {
             try
             {
-                _logger.LogInformation(LogEvents.Subtract, "GET Multiply called for {firstNum} and {secNum}.", firstNum, secNum);
+                _logger.LogInformation(LogEvents.Multiply, "GET Multiply called for {firstNum} and {secNum}.", firstNum, secNum);
                 decimal result = Calculator.Multiply(firstNum, secNum);
                 return Ok(result);
             }
@@ -65,7 +66,7 @@ namespace BasicArithmeticOperations.Controllers
             {
                 // result is out of value range
                 _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Multiply request for {firstNum} and {secNum}", firstNum, secNum);
-                return BadRequest(Messages.RangeLimitExceeded);
+                return StatusCode(500, Messages.RangeLimitExceeded);
             }
            
         }
@@ -90,9 +91,8 @@ namespace BasicArithmeticOperations.Controllers
             {
                 // result is out of value range
                 _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Divide request for {dividend} and {divisor}", dividend, divisor);
-                return BadRequest(Messages.RangeLimitExceeded);
+                return StatusCode(500, Messages.RangeLimitExceeded);
             }
         }
-
     }
 }
