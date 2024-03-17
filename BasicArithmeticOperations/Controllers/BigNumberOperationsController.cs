@@ -1,4 +1,5 @@
 using BasicArithmeticOperations.Utils;
+using BasicArithmeticOperations.Utils.Calculator;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Numerics;
@@ -11,10 +12,13 @@ namespace BasicArithmeticOperations.Controllers
     public class BigNumberOperationsController : ControllerBase
     {
         private readonly ILogger<BigNumberOperationsController> _logger;
+        private ICalculator _calculator;
 
-        public BigNumberOperationsController(ILogger<BigNumberOperationsController> logger)
+
+        public BigNumberOperationsController(ILogger<BigNumberOperationsController> logger, ICalculator calculator)
         {
             _logger = logger;
+            _calculator = calculator;
         }
 
         [HttpGet]
@@ -35,7 +39,7 @@ namespace BasicArithmeticOperations.Controllers
                     return BadRequest(Messages.IntegersOnly);
                 }
 
-                BigInteger result = Calculator.AddBigNumbers(first, sec);
+                BigInteger result = _calculator.AddBigNumbers(first, sec);
                 return Ok(result.ToString());
             }
             catch (Exception ex) 
@@ -63,7 +67,7 @@ namespace BasicArithmeticOperations.Controllers
                     return BadRequest(Messages.IntegersOnly);
                 }
 
-                BigInteger result = Calculator.SubtractBigNumbers(min, sub);
+                BigInteger result = _calculator.SubtractBigNumbers(min, sub);
                 return Ok(result.ToString());
             }
             catch (Exception ex)
@@ -91,7 +95,7 @@ namespace BasicArithmeticOperations.Controllers
                     return BadRequest(Messages.IntegersOnly);
                 }
 
-                BigInteger result = Calculator.MultiplyBigNumbers(first, sec);
+                BigInteger result = _calculator.MultiplyBigNumbers(first, sec);
                 return Ok(result.ToString());
             }
             catch (Exception ex) 
@@ -127,7 +131,7 @@ namespace BasicArithmeticOperations.Controllers
                     return BadRequest(Messages.DivisionByZero);
                 }
 
-                BigInteger result = Calculator.DivideBigNumbers(divd, divs);
+                BigInteger result = _calculator.DivideBigNumbers(divd, divs);
                 return Ok("Result in integer: " + result.ToString());
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 using BasicArithmeticOperations.Utils;
+using BasicArithmeticOperations.Utils.Calculator;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Drawing;
@@ -10,10 +11,11 @@ namespace BasicArithmeticOperations.Controllers
     public class OperationsController : ControllerBase
     {
         private readonly ILogger<OperationsController> _logger;
-
-        public OperationsController(ILogger<OperationsController> logger)
+        private readonly ICalculator _calculator;
+        public OperationsController(ILogger<OperationsController> logger, ICalculator calculator)
         {
             _logger = logger;
+            _calculator = calculator;
         }
 
         [HttpGet]
@@ -23,7 +25,7 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Add, "GET Add called for {firstNum} and {secNum}.", firstNum, secNum);
-                decimal result = Calculator.Add(firstNum, secNum);
+                decimal result = _calculator.Add(firstNum, secNum);
                 return Ok(result);
             }
             catch (Exception ex) 
@@ -41,7 +43,7 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Subtract, "GET Subtract called for {minuend} and {subtrahend}.", minuend, subtrahend);
-                decimal result = Calculator.Subtract(minuend, subtrahend);
+                decimal result = _calculator.Subtract(minuend, subtrahend);
                 return Ok(result);
             }
             catch (Exception ex) 
@@ -59,7 +61,7 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Multiply, "GET Multiply called for {firstNum} and {secNum}.", firstNum, secNum);
-                decimal result = Calculator.Multiply(firstNum, secNum);
+                decimal result = _calculator.Multiply(firstNum, secNum);
                 return Ok(result);
             }
             catch (Exception ex) 
@@ -84,7 +86,7 @@ namespace BasicArithmeticOperations.Controllers
                     _logger.LogWarning(LogEvents.DivisionByZero, "Divide {dividend} by {divisor}.", dividend, divisor);
                     return BadRequest(Messages.DivisionByZero);
                 }
-                decimal result = Calculator.Divide(dividend, divisor);
+                decimal result = _calculator.Divide(dividend, divisor);
                 return Ok(result);
             }
             catch (Exception ex)

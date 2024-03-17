@@ -2,11 +2,11 @@
 using System;
 using System.Numerics;
 
-namespace BasicArithmeticOperations
+namespace BasicArithmeticOperations.Utils.Calculator
 {
-    public static class Calculator
+    public class Calculator : ICalculator
     {
-        public static decimal Add(decimal firstNum, decimal secNum)
+        public decimal Add(decimal firstNum, decimal secNum)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace BasicArithmeticOperations
 
         }
 
-        public static decimal Subtract(decimal minuend, decimal subtrahend)
+        public decimal Subtract(decimal minuend, decimal subtrahend)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace BasicArithmeticOperations
             }
         }
 
-        public static decimal Multiply(decimal firstNum, decimal secNum)
+        public decimal Multiply(decimal firstNum, decimal secNum)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace BasicArithmeticOperations
             }
         }
 
-        public static decimal Divide(decimal dividend, decimal divisor)
+        public decimal Divide(decimal dividend, decimal divisor)
         {
             if (divisor == 0)
             {
@@ -59,7 +59,7 @@ namespace BasicArithmeticOperations
 
             try
             {
-                decimal result = dividend/ divisor;
+                decimal result = dividend / divisor;
                 return result;
             }
             catch
@@ -69,7 +69,7 @@ namespace BasicArithmeticOperations
             }
         }
 
-        public static BigInteger AddBigNumbers(BigInteger firstNum, BigInteger secNum)
+        public BigInteger AddBigNumbers(BigInteger firstNum, BigInteger secNum)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace BasicArithmeticOperations
 
         }
 
-        public static BigInteger SubtractBigNumbers(BigInteger minuend, BigInteger subtrahend)
+        public BigInteger SubtractBigNumbers(BigInteger minuend, BigInteger subtrahend)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace BasicArithmeticOperations
             }
         }
 
-        public static BigInteger MultiplyBigNumbers(BigInteger firstNum, BigInteger secNum)
+        public BigInteger MultiplyBigNumbers(BigInteger firstNum, BigInteger secNum)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace BasicArithmeticOperations
             }
         }
 
-        public static BigInteger DivideBigNumbers(BigInteger dividend, BigInteger divisor)
+        public BigInteger DivideBigNumbers(BigInteger dividend, BigInteger divisor)
         {
             if (divisor == 0)
             {
