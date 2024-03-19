@@ -2,6 +2,7 @@ using BasicArithmeticOperations.Utils;
 using BasicArithmeticOperations.Utils.Calculator;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 
@@ -27,7 +28,7 @@ namespace BasicArithmeticOperations.Controllers
         {
             try
             {
-                _logger.LogInformation(LogEvents.Add, "GET Add called for {firstNum} and {secNum}.", firstNum, secNum);
+                _logger.LogInformation(LogEvents.BigAdd, "GET Add called for {firstNum} and {secNum}.", firstNum, secNum);
                 BigInteger first, sec;
 
                 bool isFirstSucceeded = BigInteger.TryParse(firstNum, out first);
@@ -35,14 +36,23 @@ namespace BasicArithmeticOperations.Controllers
 
                 if (!isFirstSucceeded || !isSecSucceeded) // if cannot parse
                 {
-                    _logger.LogInformation(LogEvents.BigAdd, "GET Add called for {firstNum} and {subtrahend}.", firstNum, secNum);
+                    _logger.LogInformation(LogEvents.BigAdd, "GET BigAdd called for {firstNum} and {secNum}.", firstNum, secNum);
                     return BadRequest(Messages.IntegersOnly);
                 }
 
                 BigInteger result = _calculator.AddBigNumbers(first, sec);
+
+                if (!Helper.IsOutOfBuiltInTypeRange(first) && !Helper.IsOutOfBuiltInTypeRange(sec) && !Helper.IsOutOfBuiltInTypeRange(result))
+                {
+                    /* Only deny the operation if arguments and result are not bigInt.
+                    If 2 arguments are normal number but the result is bigInt, we still allow the operation in bigInt mode */
+                    _logger.LogInformation(LogEvents.BigAdd, "{firstNum} and {secNum} and their result {result} are not in the big integer range.", firstNum, secNum, result.ToString());
+                    return BadRequest(Messages.NotInBigIntRange);
+                }
+
                 return Ok(result.ToString());
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogWarning(LogEvents.InternalError, ex, "BigAdd request for {firstNum} and {secNum}", firstNum, secNum);
                 return StatusCode(500, Messages.InternalError);
@@ -68,6 +78,15 @@ namespace BasicArithmeticOperations.Controllers
                 }
 
                 BigInteger result = _calculator.SubtractBigNumbers(min, sub);
+
+                if (!Helper.IsOutOfBuiltInTypeRange(min) && !Helper.IsOutOfBuiltInTypeRange(sub) && !Helper.IsOutOfBuiltInTypeRange(result))
+                {
+                    /* Only deny the operation if arguments and result are not bigInt.
+                    If 2 arguments are normal number but the result is bigInt, we still allow the operation in bigInt mode */
+                    _logger.LogInformation(LogEvents.BigSubtract, "{minuend} and {subtrahend} and their result {result} are not in the big integer range.", minuend, subtrahend, result.ToString());
+                    return BadRequest(Messages.NotInBigIntRange);
+                }
+
                 return Ok(result.ToString());
             }
             catch (Exception ex)
@@ -91,14 +110,23 @@ namespace BasicArithmeticOperations.Controllers
 
                 if (!isFirstSucceeded || !isSecSucceeded) // if cannot parse
                 {
-                    _logger.LogInformation(LogEvents.BigMultiply, "GET Multiply called for {firstNum} and {subtrahend}.", firstNum, secNum);
+                    _logger.LogInformation(LogEvents.BigMultiply, "GET Multiply called for {firstNum} and {secNum}.", firstNum, secNum);
                     return BadRequest(Messages.IntegersOnly);
                 }
 
                 BigInteger result = _calculator.MultiplyBigNumbers(first, sec);
+
+                if (!Helper.IsOutOfBuiltInTypeRange(first) && !Helper.IsOutOfBuiltInTypeRange(sec) && !Helper.IsOutOfBuiltInTypeRange(result))
+                {
+                    /* Only deny the operation if arguments and result are not bigInt.
+                    If 2 arguments are normal number but the result is bigInt, we still allow the operation in bigInt mode */
+                    _logger.LogInformation(LogEvents.BigMultiply, "{firstNum} and {secNum} and their result {result} are not in the big integer range.", firstNum, secNum, result.ToString());
+                    return BadRequest(Messages.NotInBigIntRange);
+                }
+
                 return Ok(result.ToString());
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogWarning(LogEvents.InternalError, ex, "BigMultiply request for {firstNum} and {secNum}", firstNum, secNum);
                 return StatusCode(500, Messages.InternalError);
@@ -124,7 +152,6 @@ namespace BasicArithmeticOperations.Controllers
                     return BadRequest(Messages.IntegersOnly);
                 }
 
-
                 if (divs == 0) // check if divisor is 0
                 {
                     _logger.LogWarning(LogEvents.DivisionByZero, "BigDivide {dividend} by {divisor}.", dividend, divisor);
@@ -132,6 +159,15 @@ namespace BasicArithmeticOperations.Controllers
                 }
 
                 BigInteger result = _calculator.DivideBigNumbers(divd, divs);
+
+                if (!Helper.IsOutOfBuiltInTypeRange(divd) && !Helper.IsOutOfBuiltInTypeRange(divs) && !Helper.IsOutOfBuiltInTypeRange(result))
+                {
+                    /* Only deny the operation if arguments and result are not bigInt.
+                    If 2 arguments are normal number but the result is bigInt, we still allow the operation in bigInt mode */
+                    _logger.LogInformation(LogEvents.BigDivide, "{divd} and {divs} and their result {result} are not in the big integer range.", divd, divs, result.ToString());
+                    return BadRequest(Messages.NotInBigIntRange);
+                }
+
                 return Ok("Result in integer: " + result.ToString());
             }
             catch (Exception ex)

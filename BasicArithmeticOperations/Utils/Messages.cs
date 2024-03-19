@@ -6,6 +6,7 @@
         public const string RangeLimitExceeded = "Value range limit exceeded for the result";
         public const string IntegersOnly = "Only integers accepted!";
         public const string InternalError = "Internal Error";
+        public const string NotInBigIntRange = "Arguments and result are not in BigInteger range. Please use the normal operation.";
 
     }
 }
