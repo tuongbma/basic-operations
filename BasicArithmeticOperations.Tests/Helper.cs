@@ -14,6 +14,7 @@ namespace BasicArithmeticOperations.Tests
             var service = new ServiceCollection();
 
             service.DIRegister();
+            service.AddLogging();
 
             return service.BuildServiceProvider();
         }

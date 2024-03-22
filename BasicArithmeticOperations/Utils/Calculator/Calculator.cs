@@ -6,130 +6,153 @@ namespace BasicArithmeticOperations.Utils.Calculator
 {
     public class Calculator : ICalculator
     {
-        public decimal Add(decimal firstNum, decimal secNum)
+        public string Add(string firstNum, string secNum)
         {
-            try
+            decimal a, b;
+            BigInteger bigA, bigB;
+
+            // if can parse to Decimal
+            var isParseA = decimal.TryParse(firstNum, out a);
+            var isParseB = decimal.TryParse(secNum, out b);
+
+            if (isParseA && isParseB) // can parse arguments to decimal
             {
-                decimal result = firstNum + secNum;
-                return result;
+                try
+                {
+                    var result = a + b;
+                    return result.ToString();
+                } catch
+                {
+                    // do nothing, let compute in the bigInt
+                }
             }
-            catch
+            else // if arguments are bigInt
             {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
+                var isParseBigA = BigInteger.TryParse(firstNum, out bigA);
+                var isParseBigB = BigInteger.TryParse(secNum, out bigB);
+
+                if (isParseBigA && isParseBigB)
+                {
+                    var bigResult = bigA + bigB;
+                    return bigResult.ToString();
+                }
             }
 
+            return String.Empty;
         }
 
-        public decimal Subtract(decimal minuend, decimal subtrahend)
+        public string Subtract(string minuend, string subtrahend)
         {
-            try
+            decimal a, b;
+            BigInteger bigA, bigB;
+
+            // if can parse to Decimal
+            var isParseA = decimal.TryParse(minuend, out a);
+            var isParseB = decimal.TryParse(subtrahend, out b);
+
+            if (isParseA && isParseB) // can parse arguments to decimal
             {
-                decimal result = minuend - subtrahend;
-                return result;
+                try
+                {
+                    var result = a - b;
+                    return result.ToString();
+                }
+                catch
+                {
+                    // do nothing, let compute in the bigInt
+                }
             }
-            catch
+            else // if arguments are bigInt
             {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
+                var isParseBigA = BigInteger.TryParse(minuend, out bigA);
+                var isParseBigB = BigInteger.TryParse(subtrahend, out bigB);
+
+                if (isParseBigA && isParseBigB)
+                {
+                    var bigResult = bigA - bigB;
+                    return bigResult.ToString();
+                }
             }
+
+            return String.Empty;
         }
 
-        public decimal Multiply(decimal firstNum, decimal secNum)
+        public string Multiply(string firstNum, string secNum)
         {
-            try
+            decimal a, b;
+            BigInteger bigA, bigB;
+
+            // if can parse to Decimal
+            var isParseA = decimal.TryParse(firstNum, out a);
+            var isParseB = decimal.TryParse(secNum, out b);
+
+            if (isParseA && isParseB) // can parse arguments to decimal
             {
-                decimal result = firstNum * secNum;
-                return result;
+                try
+                {
+                    var result = a * b;
+                    return result.ToString();
+                }
+                catch
+                {
+                    // do nothing, let compute in the bigInt
+                }
             }
-            catch
+            else // if arguments are bigInt
             {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
+                var isParseBigA = BigInteger.TryParse(firstNum, out bigA);
+                var isParseBigB = BigInteger.TryParse(secNum, out bigB);
+
+                if (isParseBigA && isParseBigB)
+                {
+                    var bigResult = bigA * bigB;
+                    return bigResult.ToString();
+                }
             }
+
+            return String.Empty;
         }
 
-        public decimal Divide(decimal dividend, decimal divisor)
+        public string Divide(string dividend, string divisor)
         {
-            if (divisor == 0)
+            decimal a, b;
+            BigInteger bigA, bigB;
+
+            // if can parse to Decimal
+            var isParseA = decimal.TryParse(dividend, out a);
+            var isParseB = decimal.TryParse(divisor, out b);
+
+            if (isParseA && isParseB) // can parse arguments to decimal
             {
-                // division by 0
-                throw new ArgumentException(Messages.DivisionByZero);
+                if (b == 0)
+                {
+                    throw new ArgumentException(Messages.DivisionByZero);
+                }
+
+                try
+                {
+                    var result = a/b;
+                    return result.ToString();
+                }
+                catch
+                {
+                    // do nothing, let compute in the bigInt
+                }
+            }
+            else // if arguments are bigInt
+            {
+                var isParseBigA = BigInteger.TryParse(dividend, out bigA);
+                var isParseBigB = BigInteger.TryParse(divisor, out bigB);
+
+                if (isParseBigA && isParseBigB)
+                {
+                    var bigResult = bigA/bigB;
+                    return bigResult.ToString();
+                }
             }
 
-            try
-            {
-                decimal result = dividend / divisor;
-                return result;
-            }
-            catch
-            {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
-            }
+            return String.Empty;
         }
 
-        public BigInteger AddBigNumbers(BigInteger firstNum, BigInteger secNum)
-        {
-            try
-            {
-                BigInteger result = firstNum + secNum;
-                return result;
-            }
-            catch
-            {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
-            }
-
-        }
-
-        public BigInteger SubtractBigNumbers(BigInteger minuend, BigInteger subtrahend)
-        {
-            try
-            {
-                BigInteger result = minuend - subtrahend;
-                return result;
-            }
-            catch
-            {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
-            }
-        }
-
-        public BigInteger MultiplyBigNumbers(BigInteger firstNum, BigInteger secNum)
-        {
-            try
-            {
-                BigInteger result = firstNum * secNum;
-                return result;
-            }
-            catch
-            {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
-            }
-        }
-
-        public BigInteger DivideBigNumbers(BigInteger dividend, BigInteger divisor)
-        {
-            if (divisor == 0)
-            {
-                // division by 0
-                throw new ArgumentException(Messages.DivisionByZero);
-            }
-
-            try
-            {
-                BigInteger result = dividend / divisor;
-                return result;
-            }
-            catch
-            {
-                // result is out of value range
-                throw new ArgumentException(Messages.RangeLimitExceeded);
-            }
-        }
     }
 }

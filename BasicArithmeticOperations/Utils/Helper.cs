@@ -17,5 +17,20 @@ namespace BasicArithmeticOperations.Utils
 
             return false;
         }
+
+        public static bool IsNumericString(string str)
+        {
+            if (str == null) 
+            { 
+                return false;
+            }
+    
+            foreach (var s in str)
+            {
+                if (!char.IsDigit(s) && s != '.') return false;
+            }
+
+            return true;
+        }
     }
 }
