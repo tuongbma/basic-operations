@@ -26,12 +26,6 @@ namespace BasicArithmeticOperations.Controllers
             {
                 _logger.LogInformation(LogEvents.Add, "GET Add called for {firstNum} and {secNum}.", firstNum, secNum);
 
-                if (!Helper.IsNumericString(firstNum) || !Helper.IsNumericString(secNum)) // not numeric arguments
-                {
-                    _logger.LogWarning(LogEvents.Add, "Add request for {firstNum} and {secNum}", firstNum, secNum);
-                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
-                }
-
                 string result = _calculator.Add(firstNum, secNum);
 
                 if (String.IsNullOrEmpty(result))
@@ -44,9 +38,16 @@ namespace BasicArithmeticOperations.Controllers
             }
             catch (Exception ex) 
             {
-                // result is out of value range
-                _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Add request for {firstNum} and {secNum}", firstNum, secNum);
-                return StatusCode(StatusCodes.Status400BadRequest, Messages.RangeLimitExceeded);
+                if (ex is ArgumentException)
+                {
+                    _logger.LogWarning(LogEvents.Add, "Add request for {firstNum} and {secNum}", firstNum, secNum);
+                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
+                }
+                else
+                {
+                    _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Add request for {firstNum} and {secNum}", firstNum, secNum);
+                    return StatusCode(StatusCodes.Status400BadRequest, Messages.RangeLimitExceeded);
+                }
             }
         }
 
@@ -57,12 +58,6 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Subtract, "GET Subtract called for {minuend} and {subtrahend}.", minuend, subtrahend);
-
-                if (!Helper.IsNumericString(minuend) || !Helper.IsNumericString(subtrahend)) // not numeric arguments
-                {
-                    _logger.LogWarning(LogEvents.Subtract, "Subtract request for {minuend} and {subtrahend}", minuend, subtrahend);
-                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
-                }
 
                 string result = _calculator.Subtract(minuend, subtrahend);
 
@@ -76,9 +71,17 @@ namespace BasicArithmeticOperations.Controllers
             }
             catch (Exception ex) 
             {
-                // result is out of value range
-                _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Subtract request for {minuend} and {subtrahend}", minuend, subtrahend);
-                return StatusCode(StatusCodes.Status400BadRequest, Messages.RangeLimitExceeded);
+
+                if (ex is ArgumentException)
+                {
+                    _logger.LogWarning(LogEvents.Subtract, "Subtract request for {minuend} and {subtrahend}", minuend, subtrahend);
+                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
+                }
+                else
+                {
+                    _logger.LogWarning(LogEvents.Subtract, ex, "Subtract request for {minuend} and {subtrahend}", minuend, subtrahend);
+                    return StatusCode(StatusCodes.Status500InternalServerError, Messages.InternalError);
+                }
             }
         }
 
@@ -89,12 +92,6 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Multiply, "GET Multiply called for {firstNum} and {secNum}.", firstNum, secNum);
-
-                if (!Helper.IsNumericString(firstNum) || !Helper.IsNumericString(secNum)) // not numeric arguments
-                {
-                    _logger.LogWarning(LogEvents.Multiply, "Multiply request for {firstNum} and {secNum}", firstNum, secNum);
-                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
-                }
 
                 string result = _calculator.Multiply(firstNum, secNum);
 
@@ -108,9 +105,16 @@ namespace BasicArithmeticOperations.Controllers
             }
             catch (Exception ex) 
             {
-                // result is out of value range
-                _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Multiply request for {firstNum} and {secNum}", firstNum, secNum);
-                return StatusCode(StatusCodes.Status400BadRequest, Messages.RangeLimitExceeded);
+                if (ex is ArgumentException)
+                {
+                    _logger.LogWarning(LogEvents.Multiply, "Multiply request for {firstNum} and {secNum}", firstNum, secNum);
+                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
+                }
+                else
+                {
+                    _logger.LogWarning(LogEvents.Multiply, "Multiply request for {firstNum} and {secNum}", firstNum, secNum);
+                    return StatusCode(StatusCodes.Status500InternalServerError, Messages.InternalError);
+                }
             }
            
         }
@@ -122,12 +126,6 @@ namespace BasicArithmeticOperations.Controllers
             try
             {
                 _logger.LogInformation(LogEvents.Subtract, "GET Divide called for {dividend} and {divisor}.", dividend, divisor);
-
-                if (!Helper.IsNumericString(dividend) || !Helper.IsNumericString(divisor)) // not numeric arguments
-                {
-                    _logger.LogWarning(LogEvents.Divide, "Divide request for {dividend} and {divisor}", dividend, divisor);
-                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
-                }
 
                 if (String.Equals(divisor.Trim(), "0")) // check if divisor is 0
                 {
@@ -147,9 +145,16 @@ namespace BasicArithmeticOperations.Controllers
             }
             catch (Exception ex)
             {
-                // result is out of value range
-                _logger.LogWarning(LogEvents.RangeLimitExceeded, ex, "Divide request for {dividend} and {divisor}", dividend, divisor);
-                return StatusCode(StatusCodes.Status400BadRequest, Messages.RangeLimitExceeded);
+                if (ex is ArgumentException)
+                {
+                    _logger.LogWarning(LogEvents.Divide, "Divide request for {dividend} and {divisor}", dividend, divisor);
+                    return StatusCode(StatusCodes.Status400BadRequest, Messages.NumericArgumentOnly);
+                }
+                else
+                {
+                    _logger.LogWarning(LogEvents.Divide, "Divide request for {dividend} and {divisor}", dividend, divisor);
+                    return StatusCode(StatusCodes.Status500InternalServerError, Messages.InternalError);
+                }
             }
         }
     }

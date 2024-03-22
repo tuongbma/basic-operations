@@ -8,6 +8,11 @@ namespace BasicArithmeticOperations.Utils.Calculator
     {
         public string Add(string firstNum, string secNum)
         {
+            if (!Helper.IsNumericString(firstNum) || !Helper.IsNumericString(secNum)) // not numeric arguments
+            {
+                throw new ArgumentException(Messages.NumericArgumentOnly);
+            }
+
             decimal a, b;
             BigInteger bigA, bigB;
 
@@ -43,6 +48,11 @@ namespace BasicArithmeticOperations.Utils.Calculator
 
         public string Subtract(string minuend, string subtrahend)
         {
+            if (!Helper.IsNumericString(minuend) || !Helper.IsNumericString(subtrahend)) // not numeric arguments
+            {
+                throw new ArgumentException(Messages.NumericArgumentOnly);
+            }
+
             decimal a, b;
             BigInteger bigA, bigB;
 
@@ -79,6 +89,11 @@ namespace BasicArithmeticOperations.Utils.Calculator
 
         public string Multiply(string firstNum, string secNum)
         {
+            if (!Helper.IsNumericString(firstNum) || !Helper.IsNumericString(secNum)) // not numeric arguments
+            {
+                throw new ArgumentException(Messages.NumericArgumentOnly);
+            }
+
             decimal a, b;
             BigInteger bigA, bigB;
 
@@ -115,6 +130,11 @@ namespace BasicArithmeticOperations.Utils.Calculator
 
         public string Divide(string dividend, string divisor)
         {
+            if (!Helper.IsNumericString(dividend) || !Helper.IsNumericString(divisor)) // not numeric arguments
+            {
+                throw new ArgumentException(Messages.NumericArgumentOnly);
+            }
+
             decimal a, b;
             BigInteger bigA, bigB;
 
